@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<openerp>
+    <data noupdate="1">
+
+        <!-- Crm stages -->
+        <record model="crm.case.stage" id="crm.stage_lead1">
+            <field name="name">New</field>
+            <field name="case_default">1</field>
+            <field name="probability">0</field>
+            <field name="on_change">1</field>
+            <field name="sequence">1</field>
+            <field name="type">both</field>
+        </record>
+        <record model="crm.case.stage" id="crm.stage_lead3">
+            <field name="name">Qualified</field>
+            <field name="case_default">1</field>
+            <field name="probability">20</field>
+            <field name="on_change">1</field>
+            <field name="sequence">40</field>
+            <field name="type">opportunity</field>
+        </record>
+        <record model="crm.case.stage" id="crm.stage_lead4">
+            <field name="name">Quoted</field>
+            <field name="case_default">1</field>
+            <field name="probability">40</field>
+            <field name="sequence">50</field>
+            <field name="type">opportunity</field>
+        </record>
+        <record model="crm.case.stage" id="crm.stage_lead5">
+            <field name="name">Accepted</field>
+            <field name="case_default">1</field>
+            <field name="probability">100</field>
+            <field name="sequence">60</field>
+            <field name="type">opportunity</field>
+        </record>
+        <record model="crm.case.stage" id="crm.stage_lead6">
+            <field name="name">Rejected</field>
+            <field name="case_default">1</field>
+            <field name="fold">1</field>
+            <field name="probability">0</field>
+            <field name="on_change">1</field>
+            <field name="sequence">70</field>
+            <field name="type">both</field>
+        </record>
+
+        <record model="crm.case.section" id="sales_team.section_sales_department">
+            <field name="stage_ids" eval="[ (4, ref('crm.stage_lead1')),
+                                            (4, ref('crm.stage_lead3')), 
+                                            (4, ref('crm.stage_lead4')),
+                                            (4, ref('crm.stage_lead5')),
+                                            (4, ref('crm.stage_lead6'))]"/>
+        </record>
+
+        <delete id="crm.stage_lead2" model="crm.case.stage" />
+        <delete id="crm.stage_lead7" model="crm.case.stage" />        
+    </data>
+</openerp>
