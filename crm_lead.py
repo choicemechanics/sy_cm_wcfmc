@@ -99,27 +99,31 @@ class crm_make_sale(osv.osv_memory):
                     'payment_term':payment_term,
                 })
 
-                if case.wcfmc_id and not case.description and case.name and case.postcode:
-                        vals.update({
-                                'city' : case.city  or False,
-                                'registration_year' : case.registration_year  or False,
-                                'fuel' : case.fuel  or False,
-                                'transmission' : case.transmission  or False,
-                                'car_registration' : case.car_registration  or False,
-                                'make_model' : case.make_model  or False,
-                                'wcfmc_id' : case.wcfmc_id and case.wcfmc_id.id or False,                        
-                                'postcode' : case.postcode  or False,
-                            })
-                        cm_postcodes = self.pool.get('cm.postcode').search(cr,uid,[('part_1','ilike',case.postcode[:3])],context=context)
-                        products = self.pool.get('product.product').search(cr,uid,[('wcfmc_job_name','=',case.name)],context=context)
-                        if products and cm_postcodes:
-                            order_line = []
-                            for product in products:
-                                product_default_data = sale_line_obj.product_id_change(cr,uid,False, pricelist, product,partner_id=partner.id,context=context)['value']
-                                product_default_data.update({'price_unit':1.0,'product_id':product})
-                                order_line.append([0,False,product_default_data])
-                                if order_line:
-                                    vals.update({'order_line':order_line})
+                if case.wcfmc_id and not case.description and case.name and case.postcode:                        
+                    vals.update({
+                            'city' : case.city  or False,
+                            'registration_year' : case.registration_year  or False,
+                            'fuel' : case.fuel  or False,
+                            'transmission' : case.transmission  or False,
+                            'car_registration' : case.car_registration  or False,
+                            'make_model' : case.make_model  or False,
+                            'wcfmc_id' : case.wcfmc_id and case.wcfmc_id.id or False,                        
+                            'postcode' : case.postcode  or False,
+                        })
+                    cm_postcodes = self.pool.get('cm.postcode').search(cr,uid,[('part_1_portion','=',case.postcode[:3])],context=context)
+                    products = self.pool.get('product.product').search(cr,uid,[('wcfmc_job_name','=',case.name)],context=context)
+                    if products and cm_postcodes:
+                        order_line = []
+                        for product in products:
+                            product_default_data = sale_line_obj.product_id_change(cr,uid,False, pricelist, product,partner_id=partner.id,context=context)['value']
+                            product_default_data.update({'price_unit':1.0,'product_id':product})
+                            order_line.append([0,False,product_default_data])
+                            if order_line:
+                                vals.update({'order_line':order_line})
+                        state = self.pool.get('crm.case.stage').search(cr,uid,[('name','ilike','Quoted')],context=context)
+                        if state:
+                            case_obj.write(cr, uid, [case.id], {'stage_id':state[0]})
+
                 if partner.id:
                     vals['user_id'] = partner.user_id and partner.user_id.id or uid
                 new_id = sale_obj.create(cr, uid, vals, context=context)
@@ -129,6 +133,7 @@ class crm_make_sale(osv.osv_memory):
                 new_ids.append(new_id)
                 message = _("Opportunity has been <b>converted</b> to the quotation <em>%s</em>.") % (sale_order.name)
                 case.message_post(body=message)
+                
             if make.close:
                 case_obj.case_mark_won(cr, uid, data, context=context)
             if not new_ids:
