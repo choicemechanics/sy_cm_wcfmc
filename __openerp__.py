@@ -32,12 +32,12 @@
     'website': 'http://www.synconics.com',
     'images': [],
     'data': [
-        'cm_whocanfixmycar_view.xml',
         'product_view.xml',
         'sale_order_view.xml',
         'crm_stage_data.xml',
         'crm_lead_view.xml',
         'crm_cron.xml',
+        'res_config_view.xml',
     ],
     'demo': [],
     'css': [],

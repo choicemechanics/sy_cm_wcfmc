@@ -25,7 +25,7 @@ from openerp import fields, models, api, _
 class sale_order(models.Model):
     _inherit = 'sale.order'
 
-    wcfmc_id = fields.Many2one('cm.whocanfixmycar','WCFMC')
+    wcfmc_id = fields.Integer('WCFMC')
     car_registration = fields.Char('Registration No',size=8)
     make_model = fields.Char('Model',size=64)
     fuel = fields.Selection([('petrol','Petrol'),('diesel','Diesel')],'Fuel Type')
@@ -43,5 +43,6 @@ class sale_order(models.Model):
         return res
 
     @api.v7
-    def update_quotations(self,cr,uid,ids,context=None):
+    def update_quotations(self,cr,uid,context=None):
         pass
+# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

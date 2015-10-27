@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record model="ir.ui.view" id="view_general_configuration">
+            <field name="name">note.view.general_settings.form</field>
+            <field name="model">base.config.settings</field>
+            <field name="inherit_id" ref="base_setup.view_general_configuration"/>
+            <field name="arch" type="xml">
+                <xpath expr="//label[@string='Authentication']/.." position="after">
+                    <group>
+                      <label for="id" string="WCFMC Configuration"/>
+                        <div>
+                            <div>
+                                <label for="user_name" string="User Name"/>
+                                <field name="user_name" class="oe_inline"/>
+                            </div>
+                            <div>
+                                <label for="password" string="Password"/>
+                                <field name="password" class="oe_inline" password="True"/>
+                            </div>
+                            <div>
+                                <label for="runscope_auth_token" string="Authentication Token"/>
+                                <field name="runscope_auth_token" class="oe_inline"/>
+                            </div>
+                        </div>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</openerp>

@@ -20,9 +20,9 @@
 #
 ##############################################################################
 
-import cm_whocanfixmycar
 import product
 import sale_order
 import crm_lead
+import res_config
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

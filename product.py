@@ -22,8 +22,8 @@
 
 from openerp import fields, models, api, _
 
-class product_product(models.Model):
-    _inherit = 'product.product'
+class product_template(models.Model):
+    _inherit = 'product.template'
 
     wcfmc_job_name =fields.Char('WCFMC Job Name',size=32)
-    
+# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
